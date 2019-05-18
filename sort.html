@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sort</title>
+    <style type="text/css">
+        input {
+            font-size: 16px;
+            width: 20px;
+            padding: 0;
+        }
+        #mainbox {
+            width: 740;
+            height: auto;
+            margin: 20px;
+            padding: 20px;
+            box-shadow: 5px 5px 10px black;
+            position: absolute;
+        }
+        #controll {
+            width: 200px;
+            height: 500px;
+            margin: 20px;
+            padding: 20px;
+            border-width: 10px;
+            box-shadow: 5px 5px 10px black;
+            position: fixed;
+            top: 0px;
+            left: 700px;
+            font-size: 40px;
+        }
+        p {
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <div id="mainbox">
+        <input type="text" id="ip1" value=" ">
+        <input type="text" id="ip2" value=" ">
+        <input type="text" id="ip3" value=" ">
+        <input type="text" id="ip4" value=" ">
+        <input type="text" id="ip5" value=" ">
+        <input type="text" id="ip6" value=" ">
+        <input type="text" id="ip7" value=" ">
+        <input type="text" id="ip8" value=" ">
+        <input type="text" id="ip9" value=" ">
+        <input type="text" id="ip10" value=" ">
+        <font id="result"></font>
+        <p id="display">
+            <br>
+        </p>
+    </div>
+    <div id="controll">
+        <button onclick="blank(1);randominput()">randominput()</button><br>
+        <button onclick="blank(1)">blank()</button><br>
+        <hr>
+        <button onclick="blank();insertion.sort();">insertion.sort()</button><br>
+        <button onclick="blank();bubble.sort();">bubble.sort()</button><br>
+        <button onclick="blank();nobubble.sort();">nobubble.sort()</button><br>
+        <button onclick="blank();selection.sort();">selection.sort()</button><br>
+    </div>
+</body>
+<script type="text/javascript">
+    var array = new Array();
+    function blank(value) {
+        document.getElementById("display").innerHTML = "    <br>";
+        if(value == 1) {
+            for(var j = 1; j < 11; j++) {
+                document.getElementById("ip" + j).value = " "
+            }
+        }
+    }
+    function randominput() {
+        var i = 1;
+        while(1) {
+            var random = Math.floor(Math.random() * 10) + 1;
+            var num = 0;
+            if(document.getElementById("ip" + random).value == " ") {
+                document.getElementById("ip" + random).value = i;
+                ++i
+            }
+            for(var j = 1; j < 11; j++) {
+                if(document.getElementById("ip" + j).value == " ")
+                ++num;
+            }
+            if(num == 0) {
+                break;
+            }
+        }
+    }
+    function getvalue() {
+        for (var i = 1; i < 11; i++) {
+            array[i] = Number(document.getElementById("ip" + i).value);
+        }
+    }
+    function display(text) {
+        for (var i = 1; i < 11; i++) {
+            document.getElementById("display").innerHTML += array[i] + ", ";
+        }
+        document.getElementById("display").innerHTML += " | " + text + "<br>";
+    }
+    function compare(key) {
+        if(array[key + 1] < array[key]) {
+            var st = key + "번지 와 " + (key + 1 ) + "번지를 변경";
+            var temp = array[key + 1];
+            array[key + 1] = array[key];
+            array[key] = temp;
+            display(st);
+            return 1;
+        }
+        else {
+            return 0;
+        }
+    }
+    var insertion = {
+        sort : function () {
+            getvalue();
+            for(var j = 1; j < 10; j++) {
+                for(var i = j; i > 0; i--) {
+                    compare(i);
+                }
+            }
+            display("완료");
+        }
+    }
+    var bubble = {
+        flag : 0,
+        sort : function () {
+            getvalue();
+            for(var j = 1; j < 10; j++) {
+                for(var i = 1; i < 10; i++) {
+                    this.flag += compare(i);
+                }
+                if(this.flag == 0){
+                    break;
+                }
+                display("flag : true");
+                this.flag = 0;
+            }
+            display("완료");
+        }
+    }
+    var nobubble = {
+        sort : function () {
+            getvalue();
+            for(var j = 1; j < 10; j++) {
+                for(var i = 1; i < 10; i++) {
+                    compare(i);
+                }
+            }
+            display("완료");
+        }
+    }
+    var selection = {
+        sort : function () {
+            getvalue();
+            for(var j = 1; j < 11; j++) {
+                for(var i = 1; i < 10; i++) {
+                    compare(i);
+                    console.log(j + ", " + i);
+                }
+            }
+            display("완료");
+        }
+    }
+</script>
+</html>
